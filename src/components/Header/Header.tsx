@@ -1,12 +1,8 @@
-import React from "react";
+import React, { useContext } from "react";
 import CSS from "csstype";
+import userContext from "../../lib/contexts/user-context";
 
-export type HeaderProps = {
-  name: string;
-  title: string;
-  location?: string;
-  phone?: string;
-};
+export type HeaderProps = {};
 
 const styles: {
   [name: string]: CSS.Properties;
@@ -18,8 +14,19 @@ const styles: {
     borderBottom: "1px solid black",
     backgroundColor: "#191b20",
   },
+  user: {
+    display: "flex",
+  },
   name: {
-    textAlign: "center",
+    textAlign: "left",
+    margin: "auto",
+    paddingLeft: "5px",
+    fontSize: "1.2rem",
+  },
+  image: {
+    minWidth: '150px',
+    height: '150px',
+    backgroundColor: 'gray',
   },
   title: {
     display: "grid",
@@ -36,18 +43,22 @@ const styles: {
   },
 };
 
-const Header = ({ name, title, location, phone }: HeaderProps) => {
+const Header = () => {
+  const ctx = useContext(userContext);
   return (
     <header style={styles.container}>
-      <div style={styles.name}>
-        <p>{name}</p>
+      <div style={styles.user}>
+        <img style={styles.image} src={ctx.avatarURL} alt="" />
+        <p style={styles.name}>
+          {ctx.surname} {ctx.name}
+        </p>
       </div>
       <div style={styles.title}>
-        <p>{title}</p>
+        <p>{ctx.jobTitle}</p>
       </div>
       <div style={styles.about}>
-        <div>{location && location}</div>
-        <div>{phone && `Tél: ${phone}`}</div>
+        <div>{ctx.city && `Ville : ${ctx.city}`}</div>
+        <div>{ctx.phone && `Tél : ${ctx.phone}`}</div>
       </div>
     </header>
   );

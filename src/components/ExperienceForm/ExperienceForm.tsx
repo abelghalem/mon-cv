@@ -1,11 +1,14 @@
-import React, { useRef, useState } from "react";
+import React, { useReducer, useRef, useState } from "react";
 import CSS from "csstype";
+import { v4 as uuid } from "uuid";
 
-import { ExperienceProps } from "../Experience/Experience";
+import { Experience } from "../../lib/contexts/experience-context";
+import { formatDateToValue } from "../../utils/date";
+import styled from "styled-components";
 
-export type ExprienceFormProps = {
-  experience?: ExperienceProps;
-  onSubmit: (exp: ExperienceProps) => void;
+export type ExperienceFormProps = {
+  experience?: Experience;
+  onSubmit: (exp: Experience) => void;
 };
 
 const styles: {
@@ -15,12 +18,14 @@ const styles: {
     display: "grid",
     gridTemplateColumns: "repeat(2, auto)",
     gridTemplateRows: "repeat(2, auto)",
+    paddingBottom: "25px",
+    marginTop: "10px",
   },
   label: {
     width: "100%",
   },
   input: {
-    width: "90%",
+    width: "99%",
     height: "30px",
     marginTop: "5px",
   },
@@ -39,57 +44,55 @@ const styles: {
   },
 };
 
+const TextAreaContainer = styled.div({
+  gridColumn: "span 2",
+});
+
+const TextArea = styled.textarea({
+  width: "100%",
+  marginTop: "5px",
+});
+
+const reducer = (
+  state: Experience,
+  action: { target: string; value: any }
+) => {
+  return {
+    ...state,
+    [action.target]: action.value,
+  };
+};
+
 const ExperienceForm = ({
-  experience: propsExperience,
+  experience: propsExperience = {
+    id: uuid(),
+    name: "",
+    company: "",
+    description: "",
+    domain: "",
+    location: '',
+    startDate: new Date(),
+    endDate: new Date(),
+  },
   onSubmit,
-}: ExprienceFormProps) => {
-  const [experience, setExperience] = useState(propsExperience);
-
-  const nameRef = useRef<HTMLInputElement>(null);
-  const companyRef = useRef<HTMLInputElement>(null);
-  const descriptionRef = useRef<HTMLInputElement>(null);
-  const locationRef = useRef<HTMLInputElement>(null);
-  const startDateRef = useRef<HTMLInputElement>(null);
-  const endDateRef = useRef<HTMLInputElement>(null);
-
-  if (!experience) {
-    setExperience({
-      name: "",
-      company: "",
-      description: "",
-      startDate: new Date(),
-      location: "",
-    });
-  }
+}: ExperienceFormProps) => {
+  const [experience, dispatch] = useReducer(reducer, propsExperience);
 
   return (
     <form
       style={styles.form}
       onSubmit={(e) => {
-        e.preventDefault();
-        if (
-          !nameRef.current?.value ||
-          !companyRef.current?.value ||
-          !descriptionRef.current?.value ||
-          !startDateRef.current?.valueAsDate ||
-          !endDateRef.current?.valueAsDate
-        ) {
-          return;
-        }
-        onSubmit({
-          name: nameRef.current?.value,
-          company: companyRef.current?.value,
-          description: descriptionRef.current?.value,
-          location: locationRef.current?.value,
-          startDate: startDateRef.current?.valueAsDate,
-          endDate: endDateRef.current?.valueAsDate,
-        });
+        onSubmit(experience);
       }}
     >
       <div>
         <label>
           Intitulé du poste :
-          <input style={styles.input} type="text" name="name" ref={nameRef} />
+          <input style={styles.input} type="text" name="name"
+            value={experience.name}
+            onChange={(e) =>
+              dispatch({ target: e.target.name, value: e.target.value })
+            }/>
         </label>
       </div>
       <div>
@@ -99,19 +102,10 @@ const ExperienceForm = ({
             style={styles.input}
             type="text"
             name="company"
-            ref={companyRef}
-          />
-        </label>
-      </div>
-      <div>
-        <label>
-          Description du poste :
-          <input
-            style={styles.input}
-            type="text"
-            name="description"
-            ref={descriptionRef}
-          />
+            value={experience.company}
+            onChange={(e) =>
+              dispatch({ target: e.target.name, value: e.target.value })
+            }/>
         </label>
       </div>
       <div>
@@ -121,10 +115,38 @@ const ExperienceForm = ({
             style={styles.input}
             type="text"
             name="location"
-            ref={locationRef}
-          />
+            value={experience.location}
+            onChange={(e) =>
+              dispatch({ target: e.target.name, value: e.target.value })
+            }/>
         </label>
       </div>
+      <div>
+        <label>
+          Domaine d'activité :
+          <input
+            style={styles.input}
+            type="text"
+            name="domain"
+            value={experience.domain}
+            onChange={(e) =>
+              dispatch({ target: e.target.name, value: e.target.value })
+            }/>
+        </label>
+      </div>
+      <TextAreaContainer>
+        <label>
+          Description du poste :
+          <TextArea
+            rows={15}
+            cols={40}
+            name="description"
+            value={experience.description}
+            onChange={(e) =>
+              dispatch({ target: e.target.name, value: e.target.value })
+            }/>
+        </label>
+      </TextAreaContainer>
       <div>
         <label>
           Date de début :
@@ -132,7 +154,10 @@ const ExperienceForm = ({
             style={styles.input}
             type="date"
             name="startDate"
-            ref={startDateRef}
+            value={formatDateToValue(experience.startDate)}
+            onChange={(e) =>
+              dispatch({ target: e.target.name, value: e.target.valueAsDate })
+            }
           />
         </label>
       </div>
@@ -143,7 +168,10 @@ const ExperienceForm = ({
             style={styles.input}
             type="date"
             name="endDate"
-            ref={endDateRef}
+            value={formatDateToValue(experience.endDate)}
+            onChange={(e) =>
+              dispatch({ target: e.target.name, value: e.target.valueAsDate })
+            }
           />
         </label>
       </div>

@@ -13,7 +13,7 @@ const styles: {
     display: "grid",
     gridTemplateColumns: "repeat(2, minmax(auto, 50%))",
     gridTemplateRows: "repeat(3, fit-content(200px))",
-    gap: "5px",
+    gap: "10px",
   },
 };
 

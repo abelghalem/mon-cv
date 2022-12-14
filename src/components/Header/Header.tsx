@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import CSS from "csstype";
-import userContext from "../../lib/contexts/user-context";
+import generalContext from "../../lib/contexts/general-context";
 
 export type HeaderProps = {};
 
@@ -24,9 +24,9 @@ const styles: {
     fontSize: "1.2rem",
   },
   image: {
-    minWidth: '150px',
-    height: '150px',
-    backgroundColor: 'gray',
+    minWidth: "150px",
+    height: "150px",
+    backgroundColor: "gray",
   },
   title: {
     display: "grid",
@@ -44,21 +44,26 @@ const styles: {
 };
 
 const Header = () => {
-  const ctx = useContext(userContext);
+  const ctx = useContext(generalContext);
+  if (!ctx) {
+    return <></>;
+  }
+
+  const { user } = ctx;
   return (
     <header style={styles.container}>
       <div style={styles.user}>
-        <img style={styles.image} src={ctx.avatarURL} alt="" />
+        <img style={styles.image} src={user.avatarURL} alt="" />
         <p style={styles.name}>
-          {ctx.surname} {ctx.name}
+          {user.surname} {user.name}
         </p>
       </div>
       <div style={styles.title}>
-        <p>{ctx.jobTitle}</p>
+        <p>{user.jobTitle}</p>
       </div>
       <div style={styles.about}>
-        <div>{ctx.city && `Ville : ${ctx.city}`}</div>
-        <div>{ctx.phone && `Tél : ${ctx.phone}`}</div>
+        <div>{user.city && `Ville : ${user.city}`}</div>
+        <div>{user.phone && `Tél : ${user.phone}`}</div>
       </div>
     </header>
   );

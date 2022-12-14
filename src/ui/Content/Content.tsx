@@ -11,7 +11,6 @@ const styles: {
   container: {
     padding: "20px 50px",
     display: "grid",
-    gridTemplateColumns: "repeat(2, minmax(auto, 50%))",
     gridTemplateRows: "repeat(3, fit-content(200px))",
     gap: "10px",
   },

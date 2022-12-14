@@ -52,7 +52,7 @@ const DescriptionContainer = styled.div({
 Modal.setAppElement("#root");
 const Formation = ({ handleUpdate, handleDelete, ...formation }: FormationProps) => {
   const [modalIsOpen, setIsOpen] = React.useState(false);
-  const { id, school, diploma, description, startDate, endDate } = formation;
+  const { school, diploma, description, startDate, endDate } = formation;
 
   const openModal = () => {
     setIsOpen(true);

@@ -1,9 +1,8 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import Modal from "react-modal";
 import ExperienceForm from "../../components/ExperienceForm";
 import FormationForm from "../../components/FormationForm";
-import experienceContext from "../../lib/contexts/experience-context";
 
 export type EditableContentProps = {
   title: string;

@@ -10,7 +10,7 @@ import { AiFillDelete } from "@react-icons/all-files/ai/AiFillDelete";
 import ExperienceForm from "../ExperienceForm";
 
 export type ExperienceProps = {
-  handleDelete: (id: number) => void;
+  handleDelete: (id: string) => void;
   handleUpdate: (experience: ExperienceType) => void;
 } & ExperienceType;
 

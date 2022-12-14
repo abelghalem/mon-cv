@@ -11,14 +11,8 @@ export type Experience = {
   endDate?: Date;
 };
 
-type ExperienceContextType = {
+export type ExperienceContextType = {
   experiences: Experience[];
   setExperiences: any;
+  addExperience: any
 };
-
-const experienceContext = createContext<ExperienceContextType>({
-  experiences: [],
-  setExperiences: null,
-});
-
-export default experienceContext;

@@ -9,14 +9,7 @@ export type Formation = {
   endDate: Date;
 };
 
-type FormationContextType = {
+export type FormationContextType = {
   formations: Formation[];
   setFormations: any;
 };
-
-const formationContext = createContext<FormationContextType>({
-  formations: [],
-  setFormations: null,
-});
-
-export default formationContext;

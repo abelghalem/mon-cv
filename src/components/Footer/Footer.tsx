@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import CSS from "csstype";
 
 const styles: {
@@ -9,20 +9,20 @@ const styles: {
     gridTemplateColumns: "repeat(2, auto)",
     justifyContent: "center",
     gap: "50px",
-    height: '20px'
+    height: "20px",
   },
   title: {
     fontWeight: "700",
   },
 };
 
-const Footer = ({
-  languages,
-  hobbies,
-}: {
-  languages: string[];
-  hobbies: string[];
-}) => {
+const Footer = ({ languages }: { languages: string[] }) => {
+  const [hobbies] = useState([
+    "Informatique",
+    "Voitures",
+    "Camions",
+  ]);
+
   return (
     <div style={styles.container}>
       <div>

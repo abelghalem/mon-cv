@@ -1,4 +1,4 @@
-import React, { useReducer, useRef, useState } from "react";
+import React, { useReducer } from "react";
 import CSS from "csstype";
 import { v4 as uuid } from "uuid";
 
